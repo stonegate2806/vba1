@@ -1,0 +1,39 @@
+
+Sub openPPT()
+
+
+Dim ppApp As PowerPoint.Application
+Dim ppPres As PowerPoint.Presentation
+
+    folderpath = "C:\Users\Zhiyuan\Desktop\temp"
+    Filename = "file.pptx"
+    fullpath = folderpath & "\" & Filename
+    
+On Error Resume Next
+Set ppApp = GetObject(, "PowerPoint.Application")
+On Error GoTo 0
+
+If ppApp Is Nothing Then
+Set ppApp = New PowerPoint.Application
+
+Else
+    isopen = False
+    If ppApp.Presentations.Count > 0 Then
+        For i = 1 To ppApp.Presentations.Count
+            If ppApp.Presentations.Item(i).Name = Filename Then
+                Set ppPres = ppApp.Presentations.Item(i)
+                isopen = True
+                Exit For
+                
+            End If
+        Next i
+    End If
+End If
+
+If isopen = False Then
+    ppApp.Presentations.Open fullpath
+    Set ppPres = ppApp.Presentations.Item(1)
+End If
+
+FileFound:
+End Sub
